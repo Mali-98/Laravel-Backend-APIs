@@ -26,7 +26,7 @@ Route::delete('teams/{team}', [TeamController::class,'destroy']);
 
 
 Route::post('teams/{team}/players', [TeamPlayerController::class, 'addPlayerToTeam']);
-Route::delete('teams/{team}/players/{player}', [TeamPlayerController::class, 'removePlayerFromTeam']);
+Route::delete('teams/{team}/players', [TeamPlayerController::class, 'removePlayerFromTeam']);
 Route::get('teams/{team}/players', [TeamPlayerController::class, 'getPlayersInTeam']);
 Route::get('players/{player}/teams', [TeamPlayerController::class, 'getTeamsForPlayer']);
 

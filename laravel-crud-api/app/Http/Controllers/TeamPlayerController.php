@@ -12,21 +12,40 @@ class TeamPlayerController extends Controller
     public function addPlayerToTeam(Request $request, $teamId)
     {
         $team = Teams::findOrFail($teamId);
-        $playerId = $request->input('player_id');
+        $playerIds = $request->input('player_ids', []);
 
-        $team->players()->attach($playerId);
+        // Validate the player IDs
+        foreach ($playerIds as $playerId) {
+            $player = Player::find($playerId);
+            if (!$player) {
+                return response()->json(['message' => "Player with ID $playerId does not exist"], 404);
+            }
+        }
 
-        return response()->json(['message' => 'Player added to team successfully'], 201);
+        // Attach each player to the team
+        $team->players()->syncWithoutDetaching($playerIds);
+
+        return response()->json(['message' => 'Players added to team successfully'], 201);
     }
 
     // Remove a player from a team
-    public function removePlayerFromTeam($teamId, $playerId)
+    public function removePlayerFromTeam(Request $request, $teamId)
     {
         $team = Teams::findOrFail($teamId);
+        $playerIds = $request->input('player_ids', []);
 
-        $team->players()->detach($playerId);
+        // Validate and detach the player IDs
+        foreach ($playerIds as $playerId) {
+            // Check if the player is associated with the team
+            if (!$team->players()->where('player_id', $playerId)->exists()) {
+                return response()->json(['message' => "Player with ID $playerId is not part of this team"], 404);
+            }
+        }
 
-        return response()->json(['message' => 'Player removed from team successfully'], 200);
+        // Detach the players from the team
+        $team->players()->detach($playerIds);
+
+        return response()->json(['message' => 'Players removed from team successfully'], 200);
     }
 
     // Get all players in a team
