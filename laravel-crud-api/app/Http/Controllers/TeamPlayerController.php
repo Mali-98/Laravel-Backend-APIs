@@ -19,22 +19,6 @@ class TeamPlayerController extends Controller
         return response()->json(['message' => 'Player added to team successfully'], 201);
     }
 
-    // Add existing player to a team
-    // public function addExistingPlayerToTeam($teamId, $playerId)
-    // {
-    //     $team = Teams::findOrFail($teamId);
-    //     $player = Player::findOrFail($playerId);
-
-    //     // Check if the player already exists in the team
-    //     if ($team->players()->where('player_id', $playerId)->exists()) {
-    //         return response()->json(['message' => 'Player already belongs to this team'], 409);
-    //     }
-
-    //     $team->players()->attach($playerId);
-
-    //     return response()->json(['message' => 'Player added to team successfully'], 201);
-    // }
-
     // Remove a player from a team
     public function removePlayerFromTeam($teamId, $playerId)
     {
