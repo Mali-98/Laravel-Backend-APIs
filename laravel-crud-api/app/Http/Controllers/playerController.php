@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use app\Models\Player;
+
 class PlayerController extends Controller
 {
     //display a listing of the resource. return json == GET ALL
