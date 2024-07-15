@@ -11,4 +11,10 @@ class Player extends Model
 
     //add name and email
     protected $fillable = ['name', 'email'];
+
+    // Define the relationship with Team
+    public function teams()
+    {
+        return $this->belongsToMany(Teams::class, 'player_team', 'player_id', 'team_id');
+    }
 }
